@@ -5,20 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androiddependencyinjection.R
 import com.example.androiddependencyinjection.adapter.QuestionItemAdapter
 import com.example.androiddependencyinjection.viewModel.QuestionViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_question.*
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class QuestionFragment : Fragment() {
 
-    private val questionItemAdapter = QuestionItemAdapter(listOf())
+    @Inject
+    lateinit var  questionItemAdapter : QuestionItemAdapter
+    private val viewModel: QuestionViewModel by viewModels()
 
-    override fun onCreateView(
+    override
+    fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -29,7 +36,6 @@ class QuestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = ViewModelProviders.of(this).get(QuestionViewModel::class.java)
         viewModel.onLoad()
 
         recycler_question.apply {

@@ -13,9 +13,10 @@ import com.example.androiddependencyinjection.helperUtil.OnViewClick
 import com.example.androiddependencyinjection.model.Questions
 import com.example.androiddependencyinjection.view.QuestionFragmentDirections
 import kotlinx.android.synthetic.main.question_item.view.*
+import javax.inject.Inject
 
 
-class QuestionItemAdapter(private var listOfQuestions: List<Questions>) :
+class QuestionItemAdapter @Inject constructor(private var listOfQuestions: List<Questions>) :
     RecyclerView.Adapter<QuestionItemAdapter.ViewHolder>(), OnViewClick {
 
     fun onUpdateList(newListOfQuestion: List<Questions>) {

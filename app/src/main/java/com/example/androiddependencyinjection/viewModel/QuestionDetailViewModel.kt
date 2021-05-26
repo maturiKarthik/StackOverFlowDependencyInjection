@@ -5,34 +5,38 @@ import androidx.lifecycle.MutableLiveData
 import com.example.androiddependencyinjection.Repository
 import com.example.androiddependencyinjection.model.Questions
 import com.example.androiddependencyinjection.model.StackOverFlowData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class QuestionDetailViewModel(application: Application) : BaseViewModel(application) {
+@HiltViewModel
+class QuestionDetailViewModel @Inject constructor(application: Application) :
+    BaseViewModel(application) {
 
     var listOfAnswers = MutableLiveData<List<Questions>>()
     var errorMsg = MutableLiveData<String>()
+    private val disposable = CompositeDisposable()
 
     fun retrieveAnswers(questionId: String) {
         Repository.getAllAnswersForQuestion(questionId)?.let {
-            it.enqueue(object : Callback<StackOverFlowData> {
-                override fun onFailure(call: Call<StackOverFlowData>, t: Throwable) {
-                    errorMsg.value = t.toString()
-                }
+            disposable.add(
+                it.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(
+                        object : DisposableSingleObserver<StackOverFlowData>() {
+                            override fun onSuccess(t: StackOverFlowData) {
+                                listOfAnswers.value = t.items
+                            }
 
-                override fun onResponse(
-                    call: Call<StackOverFlowData>,
-                    response: Response<StackOverFlowData>
-                ) {
-                    listOfAnswers.value = response.body()?.let {
-                        it.items
-                    }
-
-                }
-            })
-
+                            override fun onError(e: Throwable) {
+                                errorMsg.value = e.toString()
+                            }
+                        })
+            )
         }
+
     }
 
 }

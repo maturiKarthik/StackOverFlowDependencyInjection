@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/questionFragment"
         android:name="com.example.androiddependencyinjection.view.QuestionFragment"
-        android:label="fragment_question"
-        tools:layout="@layout/fragment_question" >
+        android:label="All Questions"
+        tools:layout="@layout/fragment_question">
         <action
             android:id="@+id/action_questionFragment_to_questionDetailFragment"
             app:destination="@id/questionDetailFragment" />
@@ -17,11 +17,11 @@
     <fragment
         android:id="@+id/questionDetailFragment"
         android:name="com.example.androiddependencyinjection.view.QuestionDetailFragment"
-        android:label="fragment_question_detail"
-        tools:layout="@layout/fragment_question_detail" >
+        android:label="Answer"
+        tools:layout="@layout/fragment_question_detail">
         <argument
             android:name="questionId"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 </navigation>

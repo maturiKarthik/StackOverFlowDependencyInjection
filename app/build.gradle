@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+    id 'dagger.hilt.android.plugin'
 }
 
 
@@ -45,6 +46,9 @@ def rxJavaVersion = '2.1.1'
 def roomVersion = '2.2.6'
 def navVersion = '2.3.5'
 def preferencesVersion = '1.1.1'
+def daggerVersion = '2.35.1'
+def hilt_version = '2.35'
+
 
 dependencies {
 
@@ -92,6 +96,14 @@ dependencies {
 
     //Lifecycle Extension
     implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
+
+    //Dagger2
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    //Hilt DependencyInjection
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

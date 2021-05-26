@@ -1,18 +1,23 @@
 package com.example.androiddependencyinjection.view
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.androiddependencyinjection.R
 import com.example.androiddependencyinjection.viewModel.QuestionDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_question_detail.*
 
-
+@AndroidEntryPoint
 class QuestionDetailFragment : Fragment() {
+
+    private val qDetailViewModel: QuestionDetailViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,9 +30,7 @@ class QuestionDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val questionId = arguments?.getLong("questionId")
 
-        val qDetailViewModel = ViewModelProviders.of(this).get(QuestionDetailViewModel::class.java)
         qDetailViewModel.retrieveAnswers(questionId.toString())
-
         observer(qDetailViewModel)
     }
 
@@ -36,7 +39,8 @@ class QuestionDetailFragment : Fragment() {
             if (it.isNullOrEmpty()) {
                 textView.text = "No answers Found"
             } else {
-                textView.text = it[0].body
+
+                textView.text = Html.fromHtml(it[0].body).toString()
             }
         })
     }
