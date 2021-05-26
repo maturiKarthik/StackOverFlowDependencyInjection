@@ -10,6 +10,12 @@ I have choosed to use Hilt rather than Koin since the Hilt is developed by googl
 
 
 
+## Description
+
+
+
+This app fetch List of new question from StackOverFlow along with the deatils of the person who has asked the question and displays the answer to the corresponding question in the next fragment on clicking it.
+
 
 
 ## TechSpech
@@ -28,3 +34,12 @@ def daggerVersion = '2.35.1'
 def hilt_version = '2.35'
 ```
 
+
+
+
+
+## Demo
+
+
+
+<img src="https://user-images.githubusercontent.com/18009630/119644351-0d377780-be1d-11eb-9357-075187e9aeda.gif" style="zoom:45%;" />
